@@ -8,14 +8,12 @@ import yaml
 from websockets.client import connect
 
 # 定义一个装饰器，用来标记使用了@echo注解的异步函数
-import test1
-from avidya.bot import Bot, botOn
-
-
+from avidya.bot import Bot
 
 # 定义一个异步函数，用来创建一个WebSocket客户端，并与服务器通信
 from run.aiReply import process3
 from run.extraParts import process2
+from run.test1 import process1
 
 
 async def client():
@@ -39,7 +37,9 @@ async def client():
                 msg = json.loads(msg)
             if msg!={"op":11}:
                 logger.info(msg)
-                await asyncio.gather(process2(msg, bot), process3(msg, bot))
+                #在这里选择要导入哪些部分
+                #await asyncio.gather(process1(msg,bot)) #导入test1.py部分的代码，导process1()函数就行了
+                await asyncio.gather(process2(msg, bot),process3(msg,bot))   #你可以像这样导入多个
 async def HeartBeat(ws):
     while True:
         logger.info("发送心跳包.....")
