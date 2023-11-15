@@ -39,7 +39,7 @@ async def client():
                 msg = json.loads(msg)
             if msg!={"op":11}:
                 logger.info(msg)
-                await asyncio.gather(test1.process1(msg, bot))
+                await asyncio.gather(process2(msg, bot), process3(msg, bot))
 async def HeartBeat(ws):
     while True:
         logger.info("发送心跳包.....")
