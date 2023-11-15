@@ -11,6 +11,9 @@ from avidya.bot import Bot, botOn
 
 
 # 定义一个异步函数，用来创建一个WebSocket客户端，并与服务器通信
+from run.extraParts import process2
+
+
 async def client():
     # 创建一个WebSocket客户端
     async with connect(bot.wsUrl) as ws:
@@ -32,7 +35,7 @@ async def client():
                 msg = json.loads(msg)
             if msg!={"op":11}:
                 logger.info(msg)
-                await asyncio.gather(test1.process1(msg, bot),)
+                await asyncio.gather( process2(msg, bot))
 async def HeartBeat(ws):
     while True:
         logger.info("发送心跳包.....")
@@ -45,7 +48,7 @@ async def HeartBeat(ws):
         await sleep(60)
 
 
-bot=Bot(botid= ,botsecret="")
+bot=Bot(botid= ,botsecret=" ")
 #print(bot.token)
 logger=bot.logger
 mode="channel"

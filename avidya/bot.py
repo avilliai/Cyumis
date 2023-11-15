@@ -9,6 +9,8 @@ import requests
 from avidya.botlogger import newLogger
 
 logger=newLogger()
+def givemeLogger():
+    return logger
 def botOn(func):
     func.is_echo = True
     return func
@@ -61,7 +63,7 @@ class Bot:
         async with httpx.AsyncClient() as client:
             await client.post(url, headers=self.getHeahers(), data=data)
 
-    async def send_channel_friend_message(self,event,mes):
+    '''async def send_channel_friend_message(self,event,mes):
         url="https://api.sgroup.qq.com/channels/"+event.get("d").get("channel_id")+"/messages"
         data={}
         if type(mes)==str:
@@ -75,7 +77,7 @@ class Bot:
         logger.info("url:"+url+"   发送消息"+str(data))
         requests.post(url,headers=self.getHeahers(),data=data)
         async with httpx.AsyncClient(headers=self.getHeahers()) as client:
-            await client.post(url,data=json.dumps(data))
+            await client.post(url,data=json.dumps(data))'''
 
 
 
