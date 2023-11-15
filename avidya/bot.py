@@ -16,13 +16,16 @@ def botOn(func):
     return func
 class Bot:
     # 定义一个构造方法，用来初始化对象的属性
-    def __init__(self, botid, botsecret):
+    def __init__(self, botid, botsecret,master,cur_dir):
         self.appId = str(botid)   # 实例变量，用self修饰
         self.appSecret = botsecret  # 实例变量，用self修饰
         self.token=self.getToken()  # 重要变量，自动更新token
         self.wsUrl=self.getWsConnUrl()
         self.ws=None
         self.logger=logger
+        self.master=master
+        self.cur_dir=cur_dir
+        self.mode="channel"
 
     def getToken(self):
         ass=requests.post(url="https://bots.qq.com/app/getAppAccessToken",headers={'Content-Type': 'application/json'},json={"appId": self.appId,"clientSecret": self.appSecret}).json()
@@ -47,6 +50,9 @@ class Bot:
             return wsConn
         except Exception as e:
             logger.error(e)
+    async def send(self,event,mes):
+        if self.mode=="channel":
+            await self.send_channel_message(event,mes)
     async def send_channel_message(self,event,mes):
         url="https://api.sgroup.qq.com/channels/"+event.get("d").get("channel_id")+"/messages"
         data={}

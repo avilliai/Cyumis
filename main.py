@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import asyncio
 import json
+import os
 from asyncio import sleep
 
+import yaml
 from websockets.client import connect
 
 # 定义一个装饰器，用来标记使用了@echo注解的异步函数
@@ -10,7 +12,9 @@ import test1
 from avidya.bot import Bot, botOn
 
 
+
 # 定义一个异步函数，用来创建一个WebSocket客户端，并与服务器通信
+from run.aiReply import process3
 from run.extraParts import process2
 
 
@@ -35,7 +39,7 @@ async def client():
                 msg = json.loads(msg)
             if msg!={"op":11}:
                 logger.info(msg)
-                await asyncio.gather( process2(msg, bot))
+                await asyncio.gather(test1.process1(msg, bot))
 async def HeartBeat(ws):
     while True:
         logger.info("发送心跳包.....")
@@ -47,11 +51,18 @@ async def HeartBeat(ws):
         logger.info("发送成功")
         await sleep(60)
 
-
-bot=Bot(botid= ,botsecret=" ")
+with open('config.yaml', 'r', encoding='utf-8') as f:
+    result = yaml.load(f.read(), Loader=yaml.FullLoader)
+botid=result.get('botId')
+secret=result.get("secret")
+master=result.get("master")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+bot=Bot(botid=botid,botsecret=secret,master=master,cur_dir=current_dir)
 #print(bot.token)
 logger=bot.logger
 mode="channel"
+bot.mode=mode
+logger.info("读取登陆数据完成")
 logger.info("当前模式:"+mode)
 paylod=json.dumps({
   "op": 2,
