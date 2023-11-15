@@ -1,9 +1,7 @@
 import asyncio
 import re
-
 from avidya.bot import botOn, givemeLogger
 #如果你希望这段代码可以生效，去看main.py
-
 
 #如果你不需要logger，可以把下面这样注释掉，logger和print差不多，但它是彩色的
 logger=givemeLogger()
